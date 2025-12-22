@@ -1,22 +1,27 @@
 function minDeletionSize(strs: string[]): number {
+    // O(n^2)
+    const strsColumn = [];
+
+    strs.map((str) => {
+        for(let i = 0; i < str.length; i++) {
+            if (strsColumn[i]) {
+                strsColumn[i] = strsColumn[i] + str[i];
+            } else {
+                strsColumn[i] = str[i];
+            }
+        }
+    })
+
     let countDelete = 0;
 
-    strs.forEach((str, index) => {
-        let isBigger = false;
-        let isSmaller = false;
-
-        for (let i = 0; i < str.length; i++) {
-            if (!isSmaller && str[i] < str[i + 1]) {
-                isBigger = true;
-            } else if (!isBigger && str[i] > str[i + 1]) {
-                isSmaller = true;
-            } else {
-                console.log(str);
+    strsColumn.forEach((str,index) => {
+        for(let i = 0; i < str.length - 1; i++) {
+            if (str[i] > str[i+1]) {
                 countDelete++;
                 break;
-            }
+            } 
         }
     });
 
     return countDelete;
-}
+};
